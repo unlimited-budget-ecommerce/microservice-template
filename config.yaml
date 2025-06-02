@@ -1,0 +1,63 @@
+service:
+  name: "microservice-template"
+  port: "3030"
+  env: "SIT"
+
+logger:
+  level: "DEBUG"
+  isEnableSource: true
+  isEnableReplacer: false
+
+httpClientMW:
+  isEnableLog: true
+  isEnableOtel: true
+
+outbound:
+  orchSvcName:
+    baseURL: "http://localhost:3030"
+    dialTimeout: "3s"
+    keepAliveInterval: "30s"
+    maxConns: 100
+    maxIdleConns: 50
+    idleConnTimeout: "90s"
+    responseHeaderTimeout: "10s"
+    timeout: "30s"
+    circuitBreaker:
+      enabled: true
+      timeout: "10s"
+      failureThreshold: 3
+      successThreshold: 1
+    paths:
+      exampleOrchPath: "/v1/example"
+  coreSvcName:
+    baseURL: "http://localhost:3030"
+    dialTimeout: "3s"
+    keepAliveInterval: "30s"
+    maxConns: 100
+    maxIdleConns: 50
+    idleConnTimeout: "90s"
+    responseHeaderTimeout: "10s"
+    timeout: "30s"
+    circuitBreaker:
+      enabled: true
+      timeout: "10s"
+      failureThreshold: 3
+      successThreshold: 1
+    paths:
+      exampleCorePath: "/v1/example"
+  adapterSvcName:
+    baseURL: "http://localhost:3030"
+    dialTimeout: "3s"
+    keepAliveInterval: "30s"
+    maxConns: 100
+    maxIdleConns: 50
+    idleConnTimeout: "90s"
+    responseHeaderTimeout: "10s"
+    timeout: "30s"
+    circuitBreaker:
+      enabled: true
+      timeout: "10s"
+      failureThreshold: 3
+      successThreshold: 1
+    paths:
+      exampleAdapterPath: "/v1/example"
