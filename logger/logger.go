@@ -6,10 +6,10 @@ import (
 	"strings"
 
 	"github.com/unlimited-budget-ecommerce/logz"
-	"github.com/unlimited-budget-ecommerce/microservice-template/internal"
+	"github.com/unlimited-budget-ecommerce/microservice-template/config"
 )
 
-func Init(cfg *internal.Config) {
+func Init(cfg *config.Cfg) {
 	logz.Init(
 		cfg.Service.Name,
 		logz.WithWriter(os.Stdout),

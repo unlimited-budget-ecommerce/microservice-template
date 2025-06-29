@@ -7,10 +7,10 @@ import (
 	"net/http"
 
 	"github.com/unlimited-budget-ecommerce/httpz"
-	"github.com/unlimited-budget-ecommerce/microservice-template/internal"
+	"github.com/unlimited-budget-ecommerce/microservice-template/config"
 )
 
-func New(cfg *internal.Config, targetService string) *httpz.Client {
+func New(cfg *config.Cfg, targetService string) *httpz.Client {
 	clientCfg, ok := cfg.Outbound[targetService]
 	if !ok {
 		panic("target service not found")

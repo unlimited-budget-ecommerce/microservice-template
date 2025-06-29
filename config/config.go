@@ -1,8 +1,13 @@
-package internal
+package config
 
-import "time"
+import (
+	"strings"
+	"time"
 
-type Config struct {
+	"github.com/spf13/viper"
+)
+
+type Cfg struct {
 	Service      Service
 	Logger       Logger
 	HttpClientMW HttpClientMW
@@ -11,6 +16,7 @@ type Config struct {
 
 type Service struct {
 	Name    string
+	Port    string
 	Env     string
 	Version string
 }
@@ -50,7 +56,23 @@ type CircuitBreaker struct {
 	Enabled          bool
 }
 
-func NewConfig() *Config {
-	// TODO: viper unmarshal to struct
-	return &Config{}
+func New() *Cfg {
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(".")
+	viper.AutomaticEnv()
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic("error reading config: " + err.Error())
+	}
+
+	var cfg Cfg
+	err = viper.Unmarshal(&cfg)
+	if err != nil {
+		panic("error unmarshalling config: " + err.Error())
+	}
+
+	return &cfg
 }
