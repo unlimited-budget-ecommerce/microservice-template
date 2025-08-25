@@ -11,7 +11,7 @@ import (
 )
 
 func New(cfg *config.Cfg, targetService string) *httpz.Client {
-	clientCfg, ok := cfg.Outbound[targetService]
+	clientCfg, ok := cfg.OutboundServices[targetService]
 	if !ok {
 		panic("target service not found")
 	}
@@ -25,7 +25,6 @@ func New(cfg *config.Cfg, targetService string) *httpz.Client {
 		cfg.Service.Name,
 		clientCfg.BaseURL,
 		httpz.WithTransport(&http.Transport{
-			Proxy:                 nil,
 			DialContext:           dialer.DialContext,
 			DisableKeepAlives:     false,
 			ForceAttemptHTTP2:     clientCfg.ForceAttemptHTTP2,
@@ -35,8 +34,7 @@ func New(cfg *config.Cfg, targetService string) *httpz.Client {
 			IdleConnTimeout:       clientCfg.IdleConnTimeout,
 			TLSHandshakeTimeout:   clientCfg.TLSHandshakeTimeout,
 			ResponseHeaderTimeout: clientCfg.ResponseHeaderTimeout,
-			ExpectContinueTimeout: 0, // we don't use the "Expect: 100-continue" header
-			TLSClientConfig: &tls.Config{ // TODO
+			TLSClientConfig: &tls.Config{
 				InsecureSkipVerify: clientCfg.InsecureSkipVerify,
 			},
 		}),

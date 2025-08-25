@@ -8,10 +8,10 @@ import (
 )
 
 type Cfg struct {
-	Service      Service
-	Logger       Logger
-	HttpClientMW HttpClientMW
-	Outbound     map[string]HttpClient
+	OutboundServices map[string]HttpClient
+	Service          Service
+	Logger           Logger
+	HttpClientMW     HttpClientMW
 }
 
 type Service struct {
@@ -33,18 +33,18 @@ type HttpClientMW struct {
 }
 
 type HttpClient struct {
-	BaseURL               string
 	BaseHeaders           map[string]string // optional
-	DialTimeout           time.Duration
-	KeepAliveInterval     time.Duration
-	MaxConns              int
-	MaxIdleConns          int
+	Paths                 map[string]string
+	BaseURL               string
+	CircuitBreaker        CircuitBreaker
 	IdleConnTimeout       time.Duration
+	MaxIdleConns          int
+	MaxConns              int
 	TLSHandshakeTimeout   time.Duration // optional
 	ResponseHeaderTimeout time.Duration
 	Timeout               time.Duration
-	Paths                 map[string]string
-	CircuitBreaker        CircuitBreaker
+	KeepAliveInterval     time.Duration
+	DialTimeout           time.Duration
 	ForceAttemptHTTP2     bool // optional
 	InsecureSkipVerify    bool // optional
 }
@@ -56,10 +56,10 @@ type CircuitBreaker struct {
 	Enabled          bool
 }
 
-func New() *Cfg {
+func MustNew(path string) *Cfg {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
+	viper.AddConfigPath(path)
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 

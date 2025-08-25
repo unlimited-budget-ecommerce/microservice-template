@@ -10,7 +10,7 @@ import (
 )
 
 func TestNewConfig(t *testing.T) {
-	cfg := New()
+	cfg := MustNew(".")
 
 	require.NotNil(t, cfg)
 	assert.NotEmpty(t, cfg.Service.Name)
@@ -20,7 +20,7 @@ func TestNewConfig(t *testing.T) {
 }
 
 func TestGetConfigFromViper(t *testing.T) {
-	_ = New()
+	_ = MustNew(".")
 
 	assert.NotEmpty(t, viper.GetString("service.name"))
 	assert.NotEmpty(t, viper.GetString("service.port"))
@@ -34,7 +34,7 @@ func TestReplaceConfigWithEnv(t *testing.T) {
 	os.Setenv("SERVICE_ENV", "test-env")
 	os.Setenv("LOGGER_LEVEL", "test-level")
 
-	_ = New()
+	_ = MustNew(".")
 
 	assert.Equal(t, "test-service", viper.GetString("service.name"))
 	assert.Equal(t, "test-port", viper.GetString("service.port"))

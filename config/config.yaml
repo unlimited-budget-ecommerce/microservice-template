@@ -12,13 +12,13 @@ httpClientMW:
   isEnableLog: true
   isEnableOtel: true
 
-outbound:
+outboundServices:
   orchSvcName:
     baseURL: "http://localhost:3030"
     dialTimeout: "3s"
     keepAliveInterval: "30s"
-    maxConns: 100
-    maxIdleConns: 50
+    maxConns: 0 # no limit
+    maxIdleConns: 100
     idleConnTimeout: "90s"
     responseHeaderTimeout: "10s"
     timeout: "30s"
@@ -33,8 +33,8 @@ outbound:
     baseURL: "http://localhost:3030"
     dialTimeout: "3s"
     keepAliveInterval: "30s"
-    maxConns: 100
-    maxIdleConns: 50
+    maxConns: 0 # no limit
+    maxIdleConns: 100
     idleConnTimeout: "90s"
     responseHeaderTimeout: "10s"
     timeout: "30s"
@@ -49,8 +49,8 @@ outbound:
     baseURL: "http://localhost:3030"
     dialTimeout: "3s"
     keepAliveInterval: "30s"
-    maxConns: 100
-    maxIdleConns: 50
+    maxConns: 0 # no limit
+    maxIdleConns: 100
     idleConnTimeout: "90s"
     responseHeaderTimeout: "10s"
     timeout: "30s"
